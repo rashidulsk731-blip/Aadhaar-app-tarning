@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="as">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Digital Service Practical Academy</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f6fa;color:#172033}
+header{background:#123b68;color:#fff;padding:16px 20px;position:sticky;top:0;z-index:5}
+.head{max-width:1200px;margin:auto;display:flex;justify-content:space-between;gap:15px;align-items:center}
+.logo{font-size:22px;font-weight:800}.badge{background:#f6c343;color:#222;padding:5px 9px;border-radius:4px;font-size:12px;font-weight:700}
+nav{background:#0b2d50;color:#fff;padding:8px 20px}.navin{max-width:1200px;margin:auto;display:flex;gap:8px;flex-wrap:wrap}
+button,.btn{border:0;border-radius:5px;padding:10px 14px;cursor:pointer;font-weight:700}
+nav button{background:#164a7d;color:#fff}.primary{background:#0b63ce;color:#fff}.success{background:#18864b;color:#fff}.warn{background:#d89000;color:#fff}.danger{background:#c93636;color:#fff}.light{background:#fff;border:1px solid #ccd5df}
+.wrap{max-width:1200px;margin:22px auto;padding:0 15px}.notice{background:#fff4d6;border-left:5px solid #e1a500;padding:13px;margin-bottom:18px}
+.card{background:#fff;border:1px solid #d7dee7;border-radius:8px;padding:18px;margin-bottom:18px;box-shadow:0 2px 7px #0000000d}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+label{font-size:13px;font-weight:700;display:block;margin-bottom:5px}input,select,textarea{width:100%;padding:10px;border:1px solid #bfc9d5;border-radius:4px;background:#fff}textarea{min-height:80px}
+.section{font-size:17px;font-weight:800;color:#123b68;border-bottom:2px solid #e4eaf0;padding-bottom:8px;margin:22px 0 14px}
+.hidden{display:none}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.pill{display:inline-block;padding:5px 9px;border-radius:20px;background:#e9eef5;font-size:12px}
+table{width:100%;border-collapse:collapse}th,td{border:1px solid #d7dee7;padding:9px;text-align:left;font-size:13px}th{background:#edf2f7}
+.progress{height:9px;background:#e4e9ef;border-radius:9px;overflow:hidden}.bar{height:100%;width:0;background:#0b63ce}
+footer{padding:25px;text-align:center;color:#657080;font-size:12px}
+@media(max-width:700px){.grid,.grid3{grid-template-columns:1fr}.head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="logo">Digital Service Practical Academy</div><span class="badge">TRAINING SIMULATOR • NOT OFFICIAL</span></div></header>
+<nav><div class="navin">
+<button onclick="show('home')">Home</button><button onclick="show('services')">Practice Services</button>
+<button onclick="show('request')">Request Training ID</button><button onclick="show('login')">Student Login</button>
+<button onclick="show('admin')">Admin Approval</button>
+</div></nav>
+
+<main class="wrap">
+<div class="notice"><b>Important:</b> Eitu kebol practice/training website. Real Aadhaar, PAN, EPIC, OTP, bank details ba anya sensitive data nidiba. Practice data/demo documents use kora.</div>
+
+<section id="home" class="card">
+<h2>Digital Service Practical Training</h2>
+<p>Real application-or nisina field structure, document upload practice, preview, save, correction, print aru PDF save practice.</p>
+<div class="grid3">
+<div class="card"><b>01</b><br>Training ID Request</div><div class="card"><b>02</b><br>Admin Approval</div><div class="card"><b>03</b><br>Practical Practice</div>
+</div>
+</section>
+
+<section id="request" class="card hidden">
+<h2>New Training ID Request</h2>
+<div class="grid">
+<div><label>Student Name *</label><input id="rqname"></div>
+<div><label>Mobile / WhatsApp *</label><input id="rqmobile"></div>
+<div><label>Email</label><input id="rqemail"></div>
+<div><label>Choose Password *</label><input id="rqpass" type="password"></div>
+</div>
+<div class="actions"><button class="success" onclick="requestID()">Submit Request</button>
+<a class="btn primary" id="wa" target="_blank">WhatsApp Request</a></div>
+<p id="rqmsg"></p>
+</section>
+
+<section id="login" class="card hidden">
+<h2>Student Login</h2>
+<div class="grid">
+<div><label>Training ID</label><input id="lid"></div>
+<div><label>Password</label><input id="lpass" type="password"></div>
+</div>
+<div class="actions"><button class="primary" onclick="studentLogin()">Login</button></div><p id="lmsg"></p>
+</section>
+
+<section id="admin" class="card hidden">
+<h2>Admin Approval Panel</h2>
+<div id="adminLogin">
+<div class="grid"><div><label>Admin ID</label><input id="aid"></div><div><label>Password</label><input id="apass" type="password"></div></div>
+<button class="primary" onclick="doAdminLogin()">Open Approval Panel</button>
+</div>
+<div id="adminPanel" class="hidden"><h3>Pending Requests</h3><div id="requests"></div></div>
+</section>
+
+<section id="services" class="card hidden">
+<h2>Practice Services</h2>
+<div class="grid3">
+<button class="light" onclick="openForm('voter')">Voter Form 6 Style</button>
+<button class="light" onclick="openForm('income')">Assam Income Certificate</button>
+<button class="light" onclick="openForm('caste')">Assam Caste Certificate</button>
+<button class="light" onclick="openForm('dl')">Driving Licence Flow</button>
+<button class="light" onclick="openForm('pan')">PAN Application Flow</button>
+<button class="light" onclick="openForm('aadhaar')">Aadhaar Service Flow</button>
+</div>
+</section>
+
+<section id="practice" class="card hidden">
+<h2 id="formTitle"></h2>
+<div class="pill">Practice Copy</div>
+<div class="progress" style="margin:12px 0"><div class="bar" id="bar"></div></div>
+<form id="practiceForm" onsubmit="return false"></form>
+<div class="actions">
+<button class="warn" onclick="saveDraft()">Save & Continue</button>
+<button class="primary" onclick="previewForm()">Preview Application</button>
+<button class="light" onclick="window.print()">Print / Save as PDF</button>
+<button class="danger" onclick="resetForm()">Correction / Clear</button>
+</div>
+</section>
+
+<section id="preview" class="card hidden">
+<h2>Application Preview</h2><div id="previewBody"></div>
+<div class="actions"><button class="primary" onclick="window.print()">Print / Save as PDF</button><button class="success" onclick="demoSubmit()">Generate Demo Acknowledgement</button></div>
+<p id="ack"></p>
+</section>
+</main>
+<footer>Digital Service Practical Academy — Independent training simulator. Not an official government portal.</footer>
+
+<script>
+const WA="919387628351";
+let current="", currentUser=null;
+const forms={
+voter:{title:"Voter Registration — Form 6 Style Practice",sections:[
+["Applicant Details",[
+["name","Full Name (English) *","text"],["namelocal","Name in Official Language","text"],["relative","Relative Name *","text"],["relation","Relationship","select","Father|Mother|Husband|Wife|Guardian"],["gender","Gender *","select","Male|Female|Third Gender"],["dob","Date of Birth *","date"],["mobile","Mobile Number","text"],["email","Email","email"]]],
+["Address",[
+["house","House / Building","text"],["street","Street / Locality","text"],["village","Village / Town","text"],["district","District *","text"],["state","State *","text"],["pin","PIN Code *","text"]]],
+["Training Documents",[
+["ageproof","Age Proof — Demo File *","file"],["addressproof","Address Proof — Demo File *","file"],["photo","Applicant Photo — Demo File *","file"]]],
+["Declaration",[["declare","Declaration","textarea"]]]
+]},
+income:{title:"Assam Income Certificate — e-District Style Practice",sections:[
+["Application",[
+["language","Certificate Language","select","English|Assamese"],["pfc","PFC/CSC/User ID","text"],["name","Applicant Name *","text"],["mobile","Mobile *","text"],["aadhaar","Aadhaar — DEMO ONLY","text"],["pan","PAN — DEMO ONLY","text"],["email","Email","email"],["relation","Relationship","select","Self|Father|Mother|Guardian"],["relative","Relative Name","text"],["incomeSource","Source of Income","text"],["occupation","Occupation","text"],["annual","Total Annual Income *","number"]]],
+["Permanent Address",[
+["address1","Address Line 1 *","text"],["address2","Address Line 2","text"],["state","State *","text"],["district","District *","text"],["subdivision","Subdivision","text"],["circle","Circle Office","text"],["mouza","Mouza","text"],["village","Village/Town","text"],["ps","Police Station","text"],["po","Post Office","text"],["pin","PIN Code *","text"]]],
+["Attachments",[
+["addressproof","Address Proof — Demo File *","file"],["idproof","Identity Proof — Demo File *","file"],["land","Land Revenue Receipt — Demo File","file"],["salary","Salary Slip — Demo File","file"],["other","Other Document — Demo File","file"]]],
+["Declaration",[["declare","Declaration","textarea"]]]
+]},
+caste:{title:"Assam Caste Certificate — e-District Style Practice",sections:[
+["Applicant",[
+["language","Language","select","English|Assamese"],["applicationFor","Application For","text"],["name","Applicant Name *","text"],["gender","Gender","select","Male|Female|Third Gender"],["mobile","Mobile","text"],["aadhaar","Aadhaar — DEMO ONLY","text"],["pan","PAN — DEMO ONLY","text"],["email","Email","email"],["epic","EPIC No — DEMO ONLY","text"],["dob","Date of Birth","date"],["religion","Religion","text"],["caste","Caste / Tribe / Community *","text"],["subcategory","Sub Category","text"]]],
+["Family Details",[
+["father","Father Name","text"],["mother","Mother Name","text"],["spouse","Spouse Name","text"],["ancestor","Father/Ancestor Name","text"],["ancestorrel","Relation","text"],["forefather","Occupation of Forefather","text"],["voterlist","Parent Name in Voter List?","select","Yes|No|Not Known"]]],
+["Address",[
+["address","Permanent / Current Address *","textarea"],["district","District *","text"],["subdivision","Subdivision","text"],["circle","Circle","text"],["mouza","Mouza","text"],["village","Village/Town","text"],["ps","Police Station","text"],["po","Post Office","text"],["pin","PIN Code *","text"]]],
+["Documents",[
+["photo","Applicant Photo — Demo File *","file"],["dobproof","DOB Proof — Demo File","file"],["residence","Residence Proof — Demo File","file"],["casteproof","Caste/Recommendation — Demo File","file"],["report","Gaonburah/Ward Report — Demo File","file"],["legacy","Legacy Data — Demo File","file"],["other","Other Document — Demo File","file"]]]
+]},
+dl:{title:"Driving Licence — Application Flow Practice",sections:[
+["Applicant",[
+["name","Applicant Name *","text"],["dob","Date of Birth *","date"],["mobile","Mobile","text"],["email","Email","email"],["state","State *","text"],["rto","RTO *","text"],["address","Address *","textarea"]]],
+["Licence Details",[
+["type","Application Type","select","Learner Licence|Driving Licence|Renewal|Duplicate"],["class","Vehicle Class","select","MCWOG|MCWG|LMV|Transport"],["slot","Appointment/Slot — Demo","text"]]],
+["Documents",[
+["age","Age/DOB Proof — Demo File *","file"],["addressproof","Address Proof — Demo File *","file"],["photo","Photo — Demo File *","file"]]]
+]},
+pan:{title:"PAN Application — Training Flow",sections:[
+["Applicant",[
+["name","Full Name *","text"],["dob","Date of Birth *","date"],["father","Father Name","text"],["mobile","Mobile","text"],["email","Email","email"],["category","Applicant Category","select","Individual|Company|Firm|Trust"]]],
+["Address",[
+["address","Address *","textarea"],["city","City/Town","text"],["state","State","text"],["pin","PIN Code","text"]]],
+["Documents",[
+["identity","Identity Proof — Demo File *","file"],["addressproof","Address Proof — Demo File *","file"],["dobproof","DOB Proof — Demo File","file"]]]
+]},
+aadhaar:{title:"Aadhaar Service — Training Flow",sections:[
+["Service",[
+["service","Service Type","select","New Enrolment|Update Demographic|Update Address|Document Update"],["name","Name — DEMO ONLY *","text"],["dob","DOB — DEMO ONLY","date"],["gender","Gender","select","Male|Female|Third Gender"],["mobile","Mobile — DEMO ONLY","text"]]],
+["Address / Details",[
+["address","Address — DEMO ONLY","textarea"],["state","State","text"],["district","District","text"],["pin","PIN","text"]]],
+["Documents",[
+["identity","Identity Document — Demo File *","file"],["addressproof","Address Document — Demo File","file"],["other","Other Document — Demo File","file"]]]
+]}
+};
+
+function show(id){document.querySelectorAll('main section').forEach(x=>x.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');}
+function requestID(){
+ let name=rqname.value.trim(), mobile=rqmobile.value.trim(), pass=rqpass.value;
+ if(!name||!mobile||!pass){rqmsg.textContent="Name, Mobile aru Password dibo lagibo.";return}
+ let arr=JSON.parse(localStorage.getItem("requests")||"[]");
+ let id="DSA"+(1000+arr.length+Math.floor(Math.random()*9000));
+ arr.push({id,name,mobile,email:rqemail.value,pass,status:"pending"});
+ localStorage.setItem("requests",JSON.stringify(arr));
+ rqmsg.innerHTML="Request saved. <b>Training ID: "+id+"</b> (approval-r pisot login koriba).";
+ let text=encodeURIComponent("Training ID Request\nName: "+name+"\nMobile: "+mobile+"\nRequested ID: "+id);
+ wa.href="https://wa.me/"+WA+"?text="+text;
+}
+function doAdminLogin(){if(document.getElementById("aid").value==="admin"&&document.getElementById("apass").value==="admin123"){openAdminPanel()}else alert("Wrong Admin ID/Password")}
+function openAdminPanel(){document.getElementById("adminLogin").classList.add("hidden");document.getElementById("adminPanel").classList.remove("hidden");renderRequests()}
+function renderRequests(){
+ let arr=JSON.parse(localStorage.getItem("requests")||"[]"); requests.innerHTML=arr.length?arr.map((r,i)=>`<div class="card"><b>${r.name}</b> — ${r.id}<br>${r.mobile}<br>Status: ${r.status}<div class="actions">${r.status==="pending"?`<button class="success" onclick="approve(${i})">Approve</button>`:"Approved"}</div></div>`).join(""):"No pending request.";
+}
+function approve(i){let a=JSON.parse(localStorage.getItem("requests")||"[]");a[i].status="approved";localStorage.setItem("requests",JSON.stringify(a));renderRequests();alert("Approved. Student can login with "+a[i].id+" and chosen password.")}
+function studentLogin(){
+ let a=JSON.parse(localStorage.getItem("requests")||"[]");let u=a.find(x=>x.id===lid.value.trim()&&x.pass===lpass.value);
+ if(!u){lmsg.textContent="ID/Password wrong, ba admin approval baki.";return}
+ if(u.status!=="approved"){lmsg.textContent="Admin approval baki.";return}
+ currentUser=u;lmsg.innerHTML="Login successful. Welcome "+u.name;show("services");
+}
+function openForm(k){if(!currentUser){alert("First Student Login kori lobo.");show("login");return}current=k;formTitle.textContent=forms[k].title;let f=practiceForm;f.innerHTML="";
+forms[k].sections.forEach(s=>{let h=document.createElement("div");h.className="section";h.textContent=s[0];f.appendChild(h);let g=document.createElement("div");g.className="grid";
+s[1].forEach(x=>{let d=document.createElement("div"),lab=document.createElement("label");lab.textContent=x[1];d.appendChild(lab);let el;
+if(x[2]==="select"){el=document.createElement("select");x[3].split("|").forEach(v=>{let o=document.createElement("option");o.textContent=v;o.value=v;el.appendChild(o)})}
+else if(x[2]==="textarea"){el=document.createElement("textarea")}
+else {el=document.createElement("input");el.type=x[2]}
+el.name=x[0];d.appendChild(el);g.appendChild(d)});f.appendChild(g)});
+show("practice");loadDraft();updateBar()}
+function updateBar(){let els=[...practiceForm.querySelectorAll("input,select,textarea")];let filled=els.filter(e=>e.type==="file"?e.files.length:e.value.trim()).length;bar.style.width=(els.length?filled/els.length*100:0)+"%"}
+practiceForm.addEventListener("input",updateBar);
+function saveDraft(){let data={};[...practiceForm.elements].forEach(e=>{if(e.name&&e.type!=="file")data[e.name]=e.value});localStorage.setItem("draft_"+current,JSON.stringify(data));alert("Draft saved. Later continue koribo pariba.")}
+function loadDraft(){let d=JSON.parse(localStorage.getItem("draft_"+current)||"{}");[...practiceForm.elements].forEach(e=>{if(e.name&&d[e.name]!=null)e.value=d[e.name]})}
+function previewForm(){
+ let required=[...practiceForm.querySelectorAll("input,textarea,select")].filter(e=>e.previousSibling&&e.previousSibling.textContent.includes("*"));
+ let bad=required.filter(e=>e.type==="file"?e.files.length===0:!e.value.trim());if(bad.length){alert("Required field bur fill/upload kora.");return}
+ let rows="";[...practiceForm.elements].forEach(e=>{if(!e.name)return;let val=e.type==="file"?(e.files[0]?.name||"Not uploaded"):e.value;rows+=`<tr><th>${e.previousSibling.textContent}</th><td>${escapeHtml(val)}</td></tr>`});previewBody.innerHTML=`<p><b>Training Application Copy</b></p><table>${rows}</table>`;show("preview")}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function demoSubmit(){let n="TRN-"+new Date().getFullYear()+"-"+Math.floor(100000+Math.random()*900000);ack.innerHTML="<b>Demo Acknowledgement No:</b> "+n+"<br><span class='pill'>Training only — not a government application number</span>"}
+function resetForm(){if(confirm("Form clear koribo?")){practiceForm.reset();localStorage.removeItem("draft_"+current);updateBar();show("practice")}}
+</script>
+</body></html>
